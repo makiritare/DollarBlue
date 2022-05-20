@@ -6,9 +6,10 @@
     <string name="update_exchange">Actualizar</string>
     <string name="cantidad_a_cambiar">Cantidad a cambiar</string>
     <string name="precio_del_dolar">Precio del dolar</string>
-    <string name="total_amount">Cambio Total %s</string>
+    <string name="total_amount">Cambio: %s</string>
     <string name="error_total">Falta rellenar los datos</string>
-    <string name="error_monto">Falta rellenar el monto a cambiar</string>
-    <string name="error_dolar">Falta rellenar el precio del dolar</string>
+    <string name="error_monto">Falta el monto a cambiar</string>
+    <string name="error_dolar">Falta el precio del dolar</string>
     <string name="transfer_cost">Costo de transferencia</string>
+    <string name="amount_to_exchange">Cantidad a cambiar</string>
 </resources>

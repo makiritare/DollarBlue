@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             else -> {
                 val formattedTotal = formatCurrency.format(amountToExchange.toDouble() * dolarPrice.toDouble())
                 binding.totalAmount.text = getString(R.string.total_amount, formattedTotal)
+                binding.amountToPay.hint = getString(R.string.cantidad_a_cambiar)
             }
         }
     }

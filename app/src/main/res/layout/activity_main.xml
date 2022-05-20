@@ -10,14 +10,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amountToPay"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Cantidad a cambiar"
+        android:hint="@string/amount_to_exchange"
         app:boxBackgroundColor="#AAE4EC"
+        app:startIconDrawable="@drawable/ic_baseline_monetization_on_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/cost_of_service_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,6 +38,7 @@
         android:layout_marginTop="48dp"
         android:ems="10"
         android:hint="@string/precio_del_dolar"
+        android:autofillHints=""
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:textColorHint="#757575"
@@ -75,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/calculate_button"
-        tools:text="Total Amount: $10" />
+        tools:text="Cambio" />
 
 
 
@@ -93,6 +97,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="320dp"
