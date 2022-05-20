@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DollarBlue</string>
+    <string name="app_name">DolarBlue</string>
     <string name="textview">cantidad</string>
     <string name="calculate">Calcular</string>
     <string name="gwei_amount">USDC transferencia</string>
