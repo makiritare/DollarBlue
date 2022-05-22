@@ -14,8 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/amount_to_exchange"
-        app:boxBackgroundColor="#AAE4EC"
+        app:hintTextColor="@color/purple_500"
         app:startIconDrawable="@drawable/ic_baseline_monetization_on_24"
+        app:startIconTint="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -52,7 +53,12 @@
         android:layout_height="38dp"
         android:layout_marginTop="56dp"
         android:text="@string/update_exchange"
+        style="?attr/materialButtonOutlinedStyle"
         app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="#146200EE"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/purple_500"
+        android:textColor="@color/purple_500"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/dolarPrice"
         app:layout_constraintTop_toBottomOf="@id/amountToPay" />
@@ -64,6 +70,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/calculate"
+        app:strokeColor="@color/purple_500"
+        android:textColor="@color/purple_500"
+        android:backgroundTint="#146200EE"
+        style="?attr/materialButtonOutlinedStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +101,10 @@
         android:layout_marginTop="160dp"
         android:text="@string/gwei_amount"
         app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/purple_500"
+        android:backgroundTint="#146200EE"
+        android:textColor="@color/purple_500"
+        style="?attr/materialButtonOutlinedStyle"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/calculate_button"/>
@@ -102,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="320dp"
         android:hint="@string/transfer_cost"
-        app:boxBackgroundColor="#AAE4EC"
+        app:hintTextColor="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
