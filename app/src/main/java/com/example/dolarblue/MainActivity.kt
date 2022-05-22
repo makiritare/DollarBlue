@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.dolarblue.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
     private fun calculateDollarExchange() {
         val amountToExchange = binding.costOfServiceEditText.text.toString()
         val dolarPrice = binding.dolarPrice.text.toString()
@@ -37,14 +40,16 @@ class MainActivity : AppCompatActivity() {
         when{
             a == null && d == null -> {
                 binding.totalAmount.text = getString(R.string.error_total)
+                Toast.makeText(binding.root.context, getString(R.string.error_total), Toast.LENGTH_SHORT).show()
             }
             a == null && d != null -> {
                 binding.totalAmount.text = getString(R.string.error_monto)
-                binding.amountToPay.hint = getString(R.string.error_monto)
+                Toast.makeText(binding.root.context, getString(R.string.error_monto), Toast.LENGTH_SHORT).show()
             }
             a != null && d == null -> {
                 binding.totalAmount.text = getString(R.string.error_dolar)
-                binding.dolarPrice.hint = getString(R.string.error_dolar)
+                Toast.makeText(binding.root.context, getString(R.string.error_dolar), Toast.LENGTH_SHORT).show()
+
             }
             else -> {
                 val formattedTotal = formatCurrency.format(amountToExchange.toDouble() * dolarPrice.toDouble())
@@ -61,21 +66,21 @@ class MainActivity : AppCompatActivity() {
 
         val stringRequest = StringRequest(url,
             { response -> textView.text = usdcPriceArg(response)
-            },  { error -> Toast.makeText(this, "No hay internet!", Toast.LENGTH_SHORT).show() }
-        )
+            },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
+                ContextCompat.getColor(this, R.color.purple_500)).show() })
         queue.add(stringRequest)
     }
 
     private fun getGweiToUsd() {
-        val textView2 = findViewById<TextView>(R.id.gwei_text)
-        val queue2 = Volley.newRequestQueue(this)
+        val textView = findViewById<TextView>(R.id.gwei_text)
+        val queue = Volley.newRequestQueue(this)
         val url = "https://etherscan.io/gastracker"
 
         val stringRequest = StringRequest(url,
-            { response -> textView2.text = gasEstimate(response)
-            },  { error -> Toast.makeText(this, "No hay internet!", Toast.LENGTH_SHORT).show() }
-        )
-        queue2.add(stringRequest)
+            { response -> textView.text = gasEstimate(response)
+            },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
+                ContextCompat.getColor(this, R.color.purple_700)).show() })
+        queue.add(stringRequest)
     }
 
     private fun usdcPriceArg(string: String): String {
@@ -84,9 +89,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun gasEstimate(string: String): String {
+        //estimating coinbase gas price 1.5 dollars over the Gas cost
         val array = string.split("spanHighPriorityAndBase")
         val gweiAmount = array[0].split("spanHighPrice\">")[1].split("</span>")[0]
-        val gweiToUsd = array[1].split("text-secondary\">")[1].split("|")[0].replace("\n", "")
+        val gweiToUsd = array[1].split("text-secondary\">")[1].split("|")[0].replace("\n",
+            "").replace("$", "").toDouble() + 1.5
 
         return "$gweiAmount Gwei = $gweiToUsd USD"
     }

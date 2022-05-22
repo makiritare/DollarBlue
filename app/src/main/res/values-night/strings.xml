@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DollarBlue</string>
+    <string name="app_name">DolarBlue</string>
     <string name="textview">cantidad</string>
     <string name="calculate">Calcular</string>
     <string name="gwei_amount">USDC transferencia</string>
@@ -12,4 +12,5 @@
     <string name="error_monto">Falta rellenar el monto a cambiar</string>
     <string name="error_dolar">Falta rellenar el precio del dolar</string>
     <string name="transfer_cost">costo de transferencia</string>
+    <string name="internet_error">No hay Internet!</string>
 </resources>

@@ -12,4 +12,5 @@
     <string name="error_dolar">Falta el precio del dolar</string>
     <string name="transfer_cost">Costo de transferencia</string>
     <string name="amount_to_exchange">Cantidad a cambiar</string>
+    <string name="internet_error">No hay Internet!</string>
 </resources>
