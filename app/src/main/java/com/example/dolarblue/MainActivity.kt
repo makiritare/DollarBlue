@@ -1,7 +1,11 @@
 package com.example.dolarblue
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding.updateDollar.setOnClickListener {getDollarToArg()}
         binding.calculateGwei.setOnClickListener {getGweiToUsd()}
 
+        setCheckedChangeListener()
         }
 
 
@@ -52,9 +57,14 @@ class MainActivity : AppCompatActivity() {
 
             }
             else -> {
-                val formattedTotal = formatCurrency.format(amountToExchange.toDouble() * dolarPrice.toDouble())
-                binding.totalAmount.text = getString(R.string.total_amount, formattedTotal)
-                binding.amountToPay.hint = getString(R.string.cantidad_a_cambiar)
+                if(binding.switchID.isChecked){
+                    val formattedTotal = formatCurrency.format(amountToExchange.toDouble() / dolarPrice.toDouble())
+                    binding.totalAmount.text = getString(R.string.dolars_amount, formattedTotal)
+
+                }else{
+                    val formattedTotal = formatCurrency.format(amountToExchange.toDouble() * dolarPrice.toDouble())
+                    binding.totalAmount.text = getString(R.string.pesos_amount, formattedTotal)
+                }
             }
         }
     }
@@ -97,4 +107,18 @@ class MainActivity : AppCompatActivity() {
 
         return "$gweiAmount Gwei = $gweiToUsd USD"
     }
+
+    private fun setCheckedChangeListener() {
+        binding.switchID.setOnCheckedChangeListener { _, isChecked ->
+            val msg = getString(if (isChecked) R.string.on else R.string.off)
+            val exchangeButton = getString(if (isChecked) R.string.calculate_dollars else R.string.calculate_pesos)
+            val exchangeText = getString(if (isChecked) R.string.dollar_to_exchange else R.string.pesos_to_exchange)
+            //Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+            binding.switchID.text = msg
+            binding.calculateButton.text = exchangeButton
+            binding.amountToPay.hint = exchangeText
+        }
+    }
+
+
 }

@@ -21,22 +21,27 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-
             android:id="@+id/cost_of_service_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal" />
-
-
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/off"
+        app:useMaterialThemeColors="@color/purple_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amountToPay" />
 
 
     <EditText
         android:id="@+id/dolarPrice"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="@string/precio_del_dolar"
         android:autofillHints=""
@@ -51,7 +56,7 @@
         android:id="@+id/update_dollar"
         android:layout_width="145dp"
         android:layout_height="38dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="76dp"
         android:text="@string/update_exchange"
         style="?attr/materialButtonOutlinedStyle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +74,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/calculate"
+        android:text="@string/calculate_pesos"
         app:strokeColor="@color/purple_500"
         android:textColor="@color/purple_500"
         android:backgroundTint="#146200EE"
