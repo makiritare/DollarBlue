@@ -2,14 +2,16 @@
 <resources>
     <string name="app_name">DolarBlue</string>
     <string name="textview">cantidad</string>
-    <string name="calculate_pesos">ARG / USD</string>
-    <string name="calculate_dollars">USD / ARG</string>
+    <string name="calculate_pesos">Cambiar a Pesos</string>
+    <string name="calculate_dollars">Cambiar a Dolares</string>
     <string name="gwei_amount">USDC transferencia</string>
     <string name="update_exchange">Actualizar</string>
     <string name="cantidad_a_cambiar">Cantidad a cambiar</string>
     <string name="pesos_to_exchange">Pesos a cambiar</string>
     <string name="dollar_to_exchange">Dolares a cambiar</string>
     <string name="precio_del_dolar">Precio del dolar</string>
+
+
     <string name="dolars_amount">Dolares a cambiar: %s</string>
     <string name="pesos_amount">Cambio en pesos: %s</string>
     <string name="error_total">Falta rellenar los datos</string>
@@ -18,6 +20,7 @@
     <string name="transfer_cost">Costo de transferencia</string>
     <string name="amount_to_exchange">Cantidad a cambiar</string>
     <string name="internet_error">No hay Internet!</string>
-    <string name="off">ARG</string>
-    <string name="on">USD</string>
+    //slider
+    <string name="off">USD</string>
+    <string name="on">ARG</string>
 </resources>

@@ -1,13 +1,10 @@
 package com.example.dolarblue
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.android.volley.toolbox.StringRequest
@@ -15,6 +12,7 @@ import com.android.volley.toolbox.Volley
 import com.example.dolarblue.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,14 +24,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.calculateButton.setOnClickListener {calculateDollarExchange()}
-        binding.updateDollar.setOnClickListener {getDollarToArg()}
         binding.calculateGwei.setOnClickListener {getGweiToUsd()}
 
+
         setCheckedChangeListener()
+        setCheckedDollars()
+        waitTwoSecond()
         }
 
 
     private fun calculateDollarExchange() {
+        hideSoftKeyboard()
         val amountToExchange = binding.costOfServiceEditText.text.toString()
         val dolarPrice = binding.dolarPrice.text.toString()
 
@@ -81,6 +82,18 @@ class MainActivity : AppCompatActivity() {
         queue.add(stringRequest)
     }
 
+    private fun getDollarBlue() {
+        val textView = findViewById<TextView>(R.id.dolarPrice)
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://dolarhoy.com/cotizaciondolarblue"
+
+        val stringRequest = StringRequest(url,
+            { response -> textView.text = dolarBluePrice(response)
+            },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
+                ContextCompat.getColor(this, R.color.purple_500)).show() })
+        queue.add(stringRequest)
+    }
+
     private fun getGweiToUsd() {
         val textView = findViewById<TextView>(R.id.gwei_text)
         val queue = Volley.newRequestQueue(this)
@@ -98,14 +111,20 @@ class MainActivity : AppCompatActivity() {
         return array[2].split("\",\"")[2].replace("sell_rate\":\"", "")
     }
 
+    private fun dolarBluePrice(string: String): String {
+        val array = string.split("<div class=\"value\">\$")
+        return array[1].split("</div>")[0]
+    }
+
     private fun gasEstimate(string: String): String {
         //estimating coinbase gas price 1.5 dollars over the Gas cost
         val array = string.split("spanHighPriorityAndBase")
         val gweiAmount = array[0].split("spanHighPrice\">")[1].split("</span>")[0]
         val gweiToUsd = array[1].split("text-secondary\">")[1].split("|")[0].replace("\n",
             "").replace("$", "").toDouble() + 1.5
+        val formatDecimal = String.format("%.2f", gweiToUsd)
 
-        return "$gweiAmount Gwei = $gweiToUsd USD"
+        return "$gweiAmount Gwei = $formatDecimal USD"
     }
 
     private fun setCheckedChangeListener() {
@@ -120,5 +139,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setCheckedDollars(){
+        binding.dollarSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val dollarKind = getString(if (isChecked) R.string.blue_dolar else R.string.ripio_dolar)
+            binding.dollarSwitch.text = dollarKind
+            if (isChecked) {
+                getDollarBlue()
+                binding.totalAmount.text =""
+            } else {
+                getDollarToArg()
+                binding.totalAmount.text =""
+            }
+        }
+    }
 
+    private fun waitTwoSecond() {
+        try {
+            Thread.sleep(1000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+        getDollarToArg()
+    }
+
+    private fun hideSoftKeyboard() {
+        val inputMethodManager: InputMethodManager = this.getSystemService(
+            INPUT_METHOD_SERVICE
+        ) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            this.currentFocus?.windowToken ?: return, 0
+        )
+    }
 }

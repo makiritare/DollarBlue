@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/Users/ratam/AndroidStudioProjects/DolarBlue/app/src/main/res/drawable/ic_baseline_monetization_on_24.xml" value="0.166" />
         <entry key="..\:/Users/ratam/AndroidStudioProjects/DolarBlue/app/src/main/res/drawable/ic_launcher_background.xml" value="0.227" />
-        <entry key="..\:/Users/ratam/AndroidStudioProjects/DolarBlue/app/src/main/res/layout/activity_main.xml" value="0.67" />
+        <entry key="..\:/Users/ratam/AndroidStudioProjects/DolarBlue/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2055" />
+        <entry key="..\:/Users/ratam/AndroidStudioProjects/DolarBlue/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/ratam/AndroidStudioProjects/DolarBlue/app/src/main/res/layout/custom_dialog.xml" value="0.32760416666666664" />
+        <entry key="..\:/Users/ratam/AndroidStudioProjects/DolarBlue/app/src/main/res/layout/lay_custom_dialog.xml" value="0.2109375" />
       </map>
     </option>
   </component>

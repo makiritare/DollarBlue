@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:hint="@string/amount_to_exchange"
         app:hintTextColor="@color/purple_500"
-        app:startIconDrawable="@drawable/ic_baseline_monetization_on_24"
-        app:startIconTint="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_monetization_on_24"
+        app:startIconTint="@color/purple_500">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cost_of_service_edit_text"
@@ -32,9 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/off"
-        app:useMaterialThemeColors="@color/purple_500"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amountToPay" />
+        app:layout_constraintTop_toBottomOf="@id/amountToPay"
+        app:useMaterialThemeColors="@color/purple_500" />
 
 
     <EditText
@@ -42,16 +43,16 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/precio_del_dolar"
-        android:autofillHints=""
-        android:inputType="numberDecimal"
         android:minHeight="48dp"
+        android:inputType="numberDecimal"
         android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/amountToPay" />
 
-    <Button
+    <!--    <Button
 
         android:id="@+id/update_dollar"
         android:layout_width="145dp"
@@ -66,23 +67,34 @@
         android:textColor="@color/purple_500"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/dolarPrice"
-        app:layout_constraintTop_toBottomOf="@id/amountToPay" />
+        app:layout_constraintTop_toBottomOf="@id/amountToPay" />-->
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/dollar_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="Dolar Ripio"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amountToPay"
+        app:useMaterialThemeColors="@color/purple_500" />
 
     <Button
 
         android:id="@+id/calculate_button"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/calculate_pesos"
-        app:strokeColor="@color/purple_500"
-        android:textColor="@color/purple_500"
         android:backgroundTint="#146200EE"
-        style="?attr/materialButtonOutlinedStyle"
+        android:text="@string/calculate_pesos"
+        android:textColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dolarPrice" />
+        app:layout_constraintTop_toBottomOf="@id/dolarPrice"
+        app:strokeColor="@color/purple_500" />
 
     <TextView
         android:id="@+id/total_amount"
@@ -90,36 +102,34 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="16dp"
-        android:textSize="24sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/calculate_button"
         tools:text="Cambio" />
 
 
-
-
     <Button
         android:id="@+id/calculate_gwei"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:text="@string/gwei_amount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:strokeColor="@color/purple_500"
+        android:layout_marginTop="240dp"
         android:backgroundTint="#146200EE"
+        android:text="@string/gwei_amount"
         android:textColor="@color/purple_500"
-        style="?attr/materialButtonOutlinedStyle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calculate_button"/>
+        app:layout_constraintTop_toBottomOf="@id/calculate_button"
+        app:strokeColor="@color/purple_500" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
+ <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="420dp"
         android:hint="@string/transfer_cost"
         app:hintTextColor="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,9 +138,34 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/gwei_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="none"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="-31dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="551dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
