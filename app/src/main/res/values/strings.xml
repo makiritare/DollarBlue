@@ -6,8 +6,8 @@
     <string name="gwei_amount">USDC transferencia</string>
     <string name="update_exchange">Actualizar</string>
     <string name="cantidad_a_cambiar">Cantidad a cambiar</string>
-    <string name="pesos_to_exchange">Pesos a cambiar</string>
-    <string name="dollar_to_exchange">Dolares a cambiar</string>
+    <string name="pesos_to_exchange">Dolares a cambiar</string>
+    <string name="dollar_to_exchange">Pesos a cambiar</string>
     <string name="precio_del_dolar">Precio del dolar</string>
     <string name="dolars_amount">Dolares a cambiar: %s</string>
     <string name="pesos_amount">Cambio en pesos: %s</string>
