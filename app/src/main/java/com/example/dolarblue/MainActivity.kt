@@ -27,22 +27,19 @@ class MainActivity : AppCompatActivity() {
         binding.calculateGwei.setOnClickListener {getGweiToUsd()}
 
 
+        //Functions loaded at the start of the app
         setCheckedChangeListener()
         setCheckedDollars()
         waitTwoSecond()
         }
 
-
     private fun calculateDollarExchange() {
         hideSoftKeyboard()
         val amountToExchange = binding.costOfServiceEditText.text.toString()
         val dolarPrice = binding.dolarPrice.text.toString()
-
         val a = amountToExchange.toDoubleOrNull()
         val d = dolarPrice.toDoubleOrNull()
-
         val formatCurrency = NumberFormat.getCurrencyInstance()
-
         when{
             a == null && d == null -> {
                 binding.totalAmount.text = getString(R.string.error_total)
@@ -55,7 +52,6 @@ class MainActivity : AppCompatActivity() {
             a != null && d == null -> {
                 binding.totalAmount.text = getString(R.string.error_dolar)
                 Toast.makeText(binding.root.context, getString(R.string.error_dolar), Toast.LENGTH_SHORT).show()
-
             }
             else -> {
                 if(binding.switchID.isChecked){
@@ -74,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.dolarPrice)
         val queue = Volley.newRequestQueue(this)
         val url = "https://app.ripio.com/api/v3/public/rates/"
-
         val stringRequest = StringRequest(url,
             { response -> textView.text = usdcPriceArg(response)
             },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
@@ -86,7 +81,6 @@ class MainActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.dolarPrice)
         val queue = Volley.newRequestQueue(this)
         val url = "https://dolarhoy.com/cotizaciondolarblue"
-
         val stringRequest = StringRequest(url,
             { response -> textView.text = dolarBluePrice(response)
             },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
@@ -98,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.gwei_text)
         val queue = Volley.newRequestQueue(this)
         val url = "https://etherscan.io/gastracker"
-
         val stringRequest = StringRequest(url,
             { response -> textView.text = gasEstimate(response)
             },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
