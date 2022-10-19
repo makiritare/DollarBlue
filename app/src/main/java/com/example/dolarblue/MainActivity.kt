@@ -100,8 +100,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun usdcPriceArg(string: String): String {
-        val array = string.split("{\"ticker\"")
-        return array[2].split("\",\"")[2].replace("sell_rate\":\"", "")
+        val array = string.split("USDC_ARS")
+        return array[1].split("\",\"")[2].replace("sell_rate\":\"", "")
     }
 
     private fun dolarBluePrice(string: String): String {
