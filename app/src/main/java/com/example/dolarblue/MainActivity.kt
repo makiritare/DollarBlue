@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setCheckedChangeListener()
         setCheckedDollars()
         waitTwoSecond()
-        }
+    }
 
     private fun calculateDollarExchange() {
         hideSoftKeyboard()
@@ -113,8 +113,7 @@ class MainActivity : AppCompatActivity() {
         //estimating coinbase gas price 1.5 dollars over the Gas cost
         val array = string.split("spanHighPriorityAndBase")
         val gweiAmount = array[0].split("spanHighPrice\">")[1].split("</span>")[0]
-        val gweiToUsd = array[1].split("text-secondary\">")[1].split("|")[0].replace("\n",
-            "").replace("$", "").toDouble() + 1.5
+        val gweiToUsd = array[1].split("spanHighPriorityAndBase")[0].split("<div class=\"text-muted\">")[1].split("|")[0].replace("\n", "").replace("$", "").toDouble() + 1.5
         val formatDecimal = String.format("%.2f", gweiToUsd)
 
         return "$gweiAmount Gwei = $formatDecimal USD"
