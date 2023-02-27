@@ -1,7 +1,9 @@
 package com.example.dolarblue
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +33,13 @@ class MainActivity : AppCompatActivity() {
         setCheckedChangeListener()
         setCheckedDollars()
         waitTwoSecond()
+
+
+        val switchButton = findViewById<Button>(R.id.switch_button)
+        switchButton.setOnClickListener {
+            val intent = Intent(this, Calculator::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun calculateDollarExchange() {
