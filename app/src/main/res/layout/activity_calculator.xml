@@ -7,39 +7,62 @@
     android:layout_height="match_parent"
     tools:context=".Calculator">
 
-
-    <TextView
-        android:id="@+id/solutionTv"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="0"
-        android:textAlignment="textEnd"
-        android:textColor="@color/black"
-        android:textSize="32sp" />
-
-    <TextView
-        android:id="@+id/resultTv"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/solutionTvMain"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/solutionTv"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:text="0"
-        android:textAlignment="textEnd"
-        android:textColor="@color/black"
-        android:textSize="34sp" />
+        android:layout_margin="10dp"
+        android:layout_marginTop="5dp"
+        android:hint="Operation"
+        app:hintTextColor="@color/purple_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/solutionTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textAlignment="textEnd"
+            android:textSize="14dp"
+            android:inputType="numberDecimal"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/resultTvMain"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/solutionTvMain"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Result"
+        app:hintTextColor="@color/purple_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/resultTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Result"
+            android:textAlignment="textEnd"
+            android:textSize="14dp"
+            android:inputType="numberDecimal"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/resultTv"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="180dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/rounded_edge"
         android:elevation="2dp"
@@ -59,10 +82,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="c"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -72,10 +96,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text=">"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -85,10 +110,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="%"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -98,9 +124,10 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:text="/"
                 android:textColor="@color/white"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
 
@@ -119,10 +146,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="7"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -137,10 +165,11 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="8"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -150,10 +179,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="9"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -167,9 +197,10 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:text="+"
                 android:textColor="@color/white"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
 
@@ -188,10 +219,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="4"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -201,10 +233,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="5"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -214,10 +247,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="6"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -227,9 +261,10 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:text="-"
                 android:textColor="@color/white"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
         </LinearLayout>
@@ -247,10 +282,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="1"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -260,10 +296,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="2"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -273,10 +310,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="3"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -286,9 +324,10 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:text="*"
                 android:textColor="@color/white"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
         </LinearLayout>
@@ -307,10 +346,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -320,10 +360,11 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:backgroundTint="#733ED2"
                 android:text="."
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -333,9 +374,10 @@
                 android:layout_height="62dp"
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
+                android:autoSizeMinTextSize="18dp"
                 android:text="="
                 android:textColor="@color/white"
-                android:textSize="32dp"
+                android:textSize="24dp"
                 app:cornerRadius="36dp" />
 
         </LinearLayout>

@@ -62,16 +62,16 @@ class Calculator : AppCompatActivity() {
 
         var str:String
 
-        val switchButtonBacktoMain = findViewById<Button>(R.id.switch_button_to_main)
-        switchButtonBacktoMain.setOnClickListener {
+        val switchButtonBackToMain = findViewById<Button>(R.id.switch_button_to_main)
+        switchButtonBackToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
         clear.setOnClickListener{
             expressionText("0")
-            expression.textSize =60F
-            result.textSize =30F
+            expression.textSize = 26F
+            result.textSize = 16F
             resultText()
         }
         openbracket.setOnClickListener{
@@ -138,8 +138,8 @@ class Calculator : AppCompatActivity() {
             }
         }
         equal.setOnClickListener{
-            expression.textSize = 30F
-            result.textSize = 60F
+            expression.textSize = 16F
+            result.textSize = 26F
         }
         zero.setOnClickListener{
             if(expression.text.toString().startsWith("0")){
@@ -263,7 +263,7 @@ class Calculator : AppCompatActivity() {
         try {
             val res = engine.eval(exp)
             if(res.toString().endsWith(".0")){
-                result.text = "=" + res.toString().replace(".0","")
+                result.text = "= " + res.toString().replace(".0","")
             }else{
                 result.text = "=$res"
             }
