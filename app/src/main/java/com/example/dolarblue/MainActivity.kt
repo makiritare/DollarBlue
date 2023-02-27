@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         waitTwoSecond()
 
 
-        val switchButton = findViewById<Button>(R.id.switch_button)
+        val switchButton = findViewById<Button>(R.id.switch_button_to_calc)
         switchButton.setOnClickListener {
             val intent = Intent(this, Calculator::class.java)
             startActivity(intent)

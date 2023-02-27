@@ -1,5 +1,6 @@
 package com.example.dolarblue
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -60,6 +61,12 @@ class Calculator : AppCompatActivity() {
         expression.isPressed = true
 
         var str:String
+
+        val switchButtonBacktoMain = findViewById<Button>(R.id.switch_button_to_main)
+        switchButtonBacktoMain.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         clear.setOnClickListener{
             expressionText("0")

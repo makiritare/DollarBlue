@@ -127,7 +127,7 @@
     <Button
         style="?attr/materialButtonOutlinedStyle"
         android:backgroundTint="#146200EE"
-        android:id="@+id/switch_button"
+        android:id="@+id/switch_button_to_calc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="344dp"
