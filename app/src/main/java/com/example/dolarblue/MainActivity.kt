@@ -2,11 +2,13 @@ package com.example.dolarblue
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
+import androidx.appcompat.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.android.volley.toolbox.StringRequest
@@ -19,6 +21,7 @@ import java.text.NumberFormat
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var gestureDetector: GestureDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.calculateButton.setOnClickListener {calculateDollarExchange()}
         binding.calculateGwei.setOnClickListener {getGweiToUsd()}
+        gestureDetector = GestureDetector(this, GestureListener())
 
 
         //Functions loaded at the start of the app
@@ -35,10 +39,46 @@ class MainActivity : AppCompatActivity() {
         waitTwoSecond()
 
 
+        //button to switch between Activity
         val switchButton = findViewById<Button>(R.id.switch_button_to_calc)
         switchButton.setOnClickListener {
             val intent = Intent(this, Calculator::class.java)
             startActivity(intent)
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+
+    inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
+        private val SWIPE_THRESHOLD = 100
+        private val SWIPE_VELOCITY_THRESHOLD = 100
+
+        override fun onDown(e: MotionEvent): Boolean {
+            return true
+        }
+
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            val diffY = e2.y - e1.y
+            val diffX = e2.x - e1.x
+            if (Math.abs(diffX) > Math.abs(diffY) &&
+                Math.abs(diffX) > SWIPE_THRESHOLD &&
+                Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+            ) {
+                if (diffX < 0) {
+                    // Swipe right, launch target activity
+                    val intent = Intent(this@MainActivity, Calculator::class.java)
+                    startActivity(intent)
+                }
+            }
+            return true
         }
     }
 
@@ -156,7 +196,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun waitTwoSecond() {
         try {
-            Thread.sleep(1000)
+            Thread.sleep(300)
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }

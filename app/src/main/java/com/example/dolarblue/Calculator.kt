@@ -9,6 +9,7 @@ import android.widget.TextView
 import javax.script.ScriptEngine
 import javax.script.ScriptEngineManager
 
+
 class Calculator : AppCompatActivity() {
     private lateinit var expression: TextView
     private lateinit var result: TextView
@@ -31,6 +32,7 @@ class Calculator : AppCompatActivity() {
     private lateinit var seven: Button
     private lateinit var eight: Button
     private lateinit var nine: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
@@ -253,6 +255,7 @@ class Calculator : AppCompatActivity() {
         }
 
     }
+
     private fun expressionText(str:String){
         expression.text = str
     }
