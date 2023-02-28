@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun waitTwoSecond() {
         try {
-            Thread.sleep(300)
+            Thread.sleep(250)
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }

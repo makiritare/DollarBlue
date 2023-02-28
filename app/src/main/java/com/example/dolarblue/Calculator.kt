@@ -72,8 +72,8 @@ class Calculator : AppCompatActivity() {
 
         clear.setOnClickListener{
             expressionText("0")
-            expression.textSize = 26F
-            result.textSize = 16F
+            expression.textSize = 32F
+            result.textSize = 10F
             resultText()
         }
         openbracket.setOnClickListener{
@@ -140,8 +140,8 @@ class Calculator : AppCompatActivity() {
             }
         }
         equal.setOnClickListener{
-            expression.textSize = 16F
-            result.textSize = 26F
+            expression.textSize = 10F
+            result.textSize = 32F
         }
         zero.setOnClickListener{
             if(expression.text.toString().startsWith("0")){
@@ -154,7 +154,7 @@ class Calculator : AppCompatActivity() {
                 resultText()
             }
         }
-        one.setOnClickListener{
+     /*   one.setOnClickListener{
             if(expression.text.toString().startsWith("0")){
                 str = expression.text.toString().replace("0","") +"1"
                 expressionText(str)
@@ -164,7 +164,21 @@ class Calculator : AppCompatActivity() {
                 expressionText(str)
                 resultText()
             }
+        }*/
+
+        one.setOnClickListener{
+            val currentExpression = expression.text.toString()
+            val newExpression = if (currentExpression == "0") {
+                "1"
+            } else if (currentExpression.startsWith("0") && currentExpression[1] != '.') {
+                currentExpression.substring(1) + "1"
+            } else {
+                currentExpression + "1"
+            }
+            expressionText(newExpression)
+            resultText()
         }
+
         two.setOnClickListener{
             if(expression.text.toString().startsWith("0")){
                 str = expression.text.toString().replace("0","") +"2"
