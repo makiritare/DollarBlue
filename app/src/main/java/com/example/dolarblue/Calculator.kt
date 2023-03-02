@@ -7,7 +7,6 @@ import android.text.method.ScrollingMovementMethod
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.example.dolarblue.databinding.ActivityCalculatorBinding
 import org.mariuszgromada.math.mxparser.Expression
 import java.text.DecimalFormat
 
