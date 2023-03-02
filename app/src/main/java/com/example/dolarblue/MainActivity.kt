@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         val gweiToUsd = array[1].split("spanHighPriorityAndBase")[0].split("<div class=\"text-muted\">")[1].split("|")[0].replace("\n", "").replace("$", "").toDouble() + 1.5
         val formatDecimal = String.format("%.2f", gweiToUsd)
 
-        return "$gweiAmount Gwei = $formatDecimal USD"
+        return "${gweiAmount.replace("\n", "")} Gwei = $formatDecimal USD"
     }
 
     private fun setCheckedChangeListener() {

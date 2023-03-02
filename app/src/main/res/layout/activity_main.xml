@@ -140,7 +140,8 @@
         app:strokeColor="@color/purple_500" />-->
 
 
- <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/GweiInfo"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -154,9 +155,8 @@
             android:id="@+id/gwei_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:inputType="none"
-            android:textColor="@color/black" />
+            android:textSize="16sp"
+            android:enabled="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
