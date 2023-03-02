@@ -158,8 +158,8 @@ class Calculator : AppCompatActivity() {
     }
 
     inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
-        private val SWIPE_THRESHOLD = 100
-        private val SWIPE_VELOCITY_THRESHOLD = 100
+        private val swipeThreshold = 100
+        private val swipeVelocityThreshold = 100
 
         override fun onDown(e: MotionEvent): Boolean {
             return true
@@ -174,8 +174,8 @@ class Calculator : AppCompatActivity() {
             val diffY = e2.y - e1.y
             val diffX = e2.x - e1.x
             if (abs(diffX) > abs(diffY) &&
-                abs(diffX) > SWIPE_THRESHOLD &&
-                abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+                abs(diffX) > swipeThreshold &&
+                abs(velocityX) > swipeVelocityThreshold
             ) {
                 if (diffX < 0) {
                     // Swipe right, launch target activity
