@@ -4,11 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import org.mariuszgromada.math.mxparser.Expression
 import java.text.DecimalFormat
+import kotlin.math.abs
 
 
 class Calculator : AppCompatActivity() {
@@ -34,6 +37,7 @@ class Calculator : AppCompatActivity() {
     private lateinit var eight: Button
     private lateinit var nine: Button
     private lateinit var clear1: Button
+    private lateinit var gestureDetector: GestureDetector
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,17 +66,18 @@ class Calculator : AppCompatActivity() {
         nine= findViewById(R.id.btn9)
         clear1 = findViewById(R.id.btnAc)
 
+        gestureDetector = GestureDetector(this, GestureListener())
 
         expression1.movementMethod = ScrollingMovementMethod()
         expression1.isActivated = true
         expression1.isPressed = true
 
 
-        val switchButtonBackToMain = findViewById<Button>(R.id.switch_button_to_main)
+     /*   val switchButtonBackToMain = findViewById<Button>(R.id.switch_button_to_main)
         switchButtonBackToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-        }
+        }*/
         clear1.setOnClickListener{
             val removedLast = expression1.text.toString().dropLast(1)
             expression1.text = removedLast
@@ -80,6 +85,8 @@ class Calculator : AppCompatActivity() {
 
         clear.setOnClickListener{
             expression1.text= ""
+            expression1.textSize = 32F
+            result1.textSize = 12F
         }
         openbracket.setOnClickListener{
             expression1.text = addToInputText("(")
@@ -105,9 +112,12 @@ class Calculator : AppCompatActivity() {
         }
         equal.setOnClickListener{
             resultText()
+            expression1.textSize = 12F
+            result1.textSize = 32F
         }
         zero.setOnClickListener{
             expression1.text = addToInputText("0")
+
         }
 
         one.setOnClickListener{
@@ -141,8 +151,47 @@ class Calculator : AppCompatActivity() {
 
     }
 
-    private fun addToInputText(buttonValue: String): String {
 
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+
+    inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
+        private val SWIPE_THRESHOLD = 100
+        private val SWIPE_VELOCITY_THRESHOLD = 100
+
+        override fun onDown(e: MotionEvent): Boolean {
+            return true
+        }
+
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            val diffY = e2.y - e1.y
+            val diffX = e2.x - e1.x
+            if (abs(diffX) > abs(diffY) &&
+                abs(diffX) > SWIPE_THRESHOLD &&
+                abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+            ) {
+                if (diffX < 0) {
+                    // Swipe right, launch target activity
+                    val intent = Intent(this@Calculator, MainActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // Swipe left, launch another activity
+                    val intent = Intent(this@Calculator, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            return true
+        }
+    }
+
+    private fun addToInputText(buttonValue: String): String {
         return expression1.text.toString() + "" + buttonValue
     }
 
