@@ -376,7 +376,7 @@
                 android:layout_margin="12dp"
                 android:autoSizeMaxTextSize="32dp"
                 android:autoSizeMinTextSize="18dp"
-                android:text="A"
+                android:text="\u003C"
                 android:backgroundTint="#733ED2"
                 android:textColor="@color/white"
                 android:textSize="24dp"
@@ -397,7 +397,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <!--<Button
         android:id="@+id/switch_button_to_main"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="275dp"
@@ -406,11 +406,11 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#146200EE"
-        android:text="Switch to Main"
+        android:text="Copy Results"
         android:textColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:strokeColor="@color/purple_500" />
+        app:strokeColor="@color/purple_500" />-->
 
 
 

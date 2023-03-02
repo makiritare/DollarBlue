@@ -124,7 +124,7 @@
         app:layout_constraintTop_toBottomOf="@id/calculate_button"
         app:strokeColor="@color/purple_500" />
 
-    <Button
+ <!--   <Button
         style="?attr/materialButtonOutlinedStyle"
         android:backgroundTint="#146200EE"
         android:id="@+id/switch_button_to_calc"
@@ -137,10 +137,11 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/calculate_button"
-        app:strokeColor="@color/purple_500" />
+        app:strokeColor="@color/purple_500" />-->
 
 
- <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/GweiInfo"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -154,9 +155,8 @@
             android:id="@+id/gwei_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:inputType="none"
-            android:textColor="@color/black" />
+            android:textSize="16sp"
+            android:enabled="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

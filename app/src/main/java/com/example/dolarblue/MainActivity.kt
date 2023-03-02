@@ -6,7 +6,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
@@ -16,6 +15,7 @@ import com.android.volley.toolbox.Volley
 import com.example.dolarblue.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
+import kotlin.math.abs
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,11 +40,11 @@ class MainActivity : AppCompatActivity() {
 
 
         //button to switch between Activity
-        val switchButton = findViewById<Button>(R.id.switch_button_to_calc)
+/*        val switchButton = findViewById<Button>(R.id.switch_button_to_calc)
         switchButton.setOnClickListener {
             val intent = Intent(this, Calculator::class.java)
             startActivity(intent)
-        }
+        }*/
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
-        private val SWIPE_THRESHOLD = 100
-        private val SWIPE_VELOCITY_THRESHOLD = 100
+        private val swipeThreshold = 100
+        private val swipeVelocityThreshold = 100
 
         override fun onDown(e: MotionEvent): Boolean {
             return true
@@ -68,12 +68,16 @@ class MainActivity : AppCompatActivity() {
         ): Boolean {
             val diffY = e2.y - e1.y
             val diffX = e2.x - e1.x
-            if (Math.abs(diffX) > Math.abs(diffY) &&
-                Math.abs(diffX) > SWIPE_THRESHOLD &&
-                Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+            if (abs(diffX) > abs(diffY) &&
+                abs(diffX) > swipeThreshold &&
+                abs(velocityX) > swipeVelocityThreshold
             ) {
                 if (diffX < 0) {
                     // Swipe right, launch target activity
+                    val intent = Intent(this@MainActivity, Calculator::class.java)
+                    startActivity(intent)
+                } else {
+                    // Swipe left, launch another activity
                     val intent = Intent(this@MainActivity, Calculator::class.java)
                     startActivity(intent)
                 }
@@ -165,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         val gweiToUsd = array[1].split("spanHighPriorityAndBase")[0].split("<div class=\"text-muted\">")[1].split("|")[0].replace("\n", "").replace("$", "").toDouble() + 1.5
         val formatDecimal = String.format("%.2f", gweiToUsd)
 
-        return "$gweiAmount Gwei = $formatDecimal USD"
+        return "${gweiAmount.replace("\n", "")} Gwei = $formatDecimal USD"
     }
 
     private fun setCheckedChangeListener() {
