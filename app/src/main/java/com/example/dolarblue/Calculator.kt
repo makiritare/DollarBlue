@@ -6,13 +6,15 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.widget.Button
 import android.widget.TextView
-import javax.script.ScriptEngine
-import javax.script.ScriptEngineManager
+import androidx.core.content.ContextCompat
+import com.example.dolarblue.databinding.ActivityCalculatorBinding
+import org.mariuszgromada.math.mxparser.Expression
+import java.text.DecimalFormat
 
 
 class Calculator : AppCompatActivity() {
-    private lateinit var expression: TextView
-    private lateinit var result: TextView
+    private lateinit var expression1: TextView
+    private lateinit var result1: TextView
     private lateinit var clear: Button
     private lateinit var openbracket: Button
     private lateinit var closebracket: Button
@@ -32,12 +34,14 @@ class Calculator : AppCompatActivity() {
     private lateinit var seven: Button
     private lateinit var eight: Button
     private lateinit var nine: Button
+    private lateinit var clear1: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
-        expression= findViewById(R.id.solutionTv)
-        result= findViewById(R.id.resultTv)
+        expression1= findViewById(R.id.solutionTv)
+        result1= findViewById(R.id.resultTv)
         clear= findViewById(R.id.btnClear)
         openbracket= findViewById(R.id.btnOpenBracket)
         closebracket= findViewById(R.id.btnCloseBracket)
@@ -57,236 +61,116 @@ class Calculator : AppCompatActivity() {
         seven= findViewById(R.id.btn7)
         eight= findViewById(R.id.btn8)
         nine= findViewById(R.id.btn9)
+        clear1 = findViewById(R.id.btnAc)
 
-        expression.movementMethod = ScrollingMovementMethod()
-        expression.isActivated = true
-        expression.isPressed = true
 
-        var str:String
+        expression1.movementMethod = ScrollingMovementMethod()
+        expression1.isActivated = true
+        expression1.isPressed = true
+
 
         val switchButtonBackToMain = findViewById<Button>(R.id.switch_button_to_main)
         switchButtonBackToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+        clear1.setOnClickListener{
+            val removedLast = expression1.text.toString().dropLast(1)
+            expression1.text = removedLast
+        }
 
         clear.setOnClickListener{
-            expressionText("0")
-            expression.textSize = 32F
-            result.textSize = 10F
-            resultText()
+            expression1.text= ""
         }
         openbracket.setOnClickListener{
-            if (expression.text.toString().isNotEmpty()){
-                val lastIndex = expression.text.toString().lastIndex
-                str = expression.text.toString().substring(0,lastIndex)
-                expressionText(str)
-                resultText()
-            }
-
+            expression1.text = addToInputText("(")
         }
         closebracket.setOnClickListener{
-            if(expression.text.toString().endsWith("%")||expression.text.toString().endsWith("/")||expression.text.toString().endsWith("*")||expression.text.toString().endsWith("+")||expression.text.toString().endsWith("-")||expression.text.toString().endsWith(".")){
-                str = expression.text.toString()
-                expressionText(str)
-            }else{
-                str = expression.text.toString() + "%"
-                expressionText(str)
-            }
+            expression1.text = addToInputText(")")
         }
         divide.setOnClickListener{
-            if(expression.text.toString().endsWith("%")||expression.text.toString().endsWith("/")||expression.text.toString().endsWith("*")||expression.text.toString().endsWith("+")||expression.text.toString().endsWith("-")||expression.text.toString().endsWith(".")){
-                str = expression.text.toString()
-                expressionText(str)
-            }else{
-                str = expression.text.toString() + "/"
-                expressionText(str)
-            }
+            expression1.text = addToInputText("/")
         }
+
         dot.setOnClickListener{
-            if(expression.text.toString().endsWith("%")||expression.text.toString().endsWith("/")||expression.text.toString().endsWith("*")||expression.text.toString().endsWith("+")||expression.text.toString().endsWith("-")||expression.text.toString().endsWith(".")){
-                str = expression.text.toString()
-                expressionText(str)
-            }else{
-                str = expression.text.toString() + "."
-                expressionText(str)
-            }
+            expression1.text = addToInputText(".")
         }
         multiply.setOnClickListener{
-            if(expression.text.toString().endsWith("%")||expression.text.toString().endsWith("/")||expression.text.toString().endsWith("*")||expression.text.toString().endsWith("+")||expression.text.toString().endsWith("-")||expression.text.toString().endsWith(".")){
-                str = expression.text.toString()
-                expressionText(str)
-            }else{
-                str = expression.text.toString() + "*"
-                expressionText(str)
-            }
+            expression1.text = addToInputText("*")
         }
         add.setOnClickListener{
-            if(expression.text.toString().endsWith("%")||expression.text.toString().endsWith("/")||expression.text.toString().endsWith("*")||expression.text.toString().endsWith("+")||expression.text.toString().endsWith("-")||expression.text.toString().endsWith(".")){
-                str = expression.text.toString()
-                expressionText(str)
-            }else{
-                str = expression.text.toString() + "+"
-                expressionText(str)
-            }
+            expression1.text = addToInputText("+")
         }
         substract.setOnClickListener{
-            if(expression.text.toString().endsWith("%")||expression.text.toString().endsWith("/")||expression.text.toString().endsWith("*")||expression.text.toString().endsWith("+")||expression.text.toString().endsWith("-")||expression.text.toString().endsWith(".")){
-                str = expression.text.toString()
-                expressionText(str)
-            }else{
-                str = expression.text.toString() + "-"
-                expressionText(str)
-            }
+            expression1.text = addToInputText("-")
         }
         equal.setOnClickListener{
-            expression.textSize = 10F
-            result.textSize = 32F
+            resultText()
         }
         zero.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"0"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "0"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("0")
         }
-     /*   one.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"1"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "1"
-                expressionText(str)
-                resultText()
-            }
-        }*/
 
         one.setOnClickListener{
-            val currentExpression = expression.text.toString()
-            val newExpression = if (currentExpression == "0") {
-                "1"
-            } else if (currentExpression.startsWith("0") && currentExpression[1] != '.') {
-                currentExpression.substring(1) + "1"
-            } else {
-                currentExpression + "1"
-            }
-            expressionText(newExpression)
-            resultText()
+            expression1.text = addToInputText("1")
         }
 
         two.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"2"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "2"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("2")
         }
         three.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"3"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "3"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("3")
         }
         four.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"4"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "4"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("4")
         }
         five.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"5"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "5"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("5")
         }
         six.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"6"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "6"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("6")
         }
         seven.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"7"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "7"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("7")
         }
         eight.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"8"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "8"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("8")
         }
         nine.setOnClickListener{
-            if(expression.text.toString().startsWith("0")){
-                str = expression.text.toString().replace("0","") +"9"
-                expressionText(str)
-                resultText()
-            }else{
-                str = expression.text.toString() + "9"
-                expressionText(str)
-                resultText()
-            }
+            expression1.text = addToInputText("9")
         }
 
     }
 
-    private fun expressionText(str:String){
-        expression.text = str
+    private fun addToInputText(buttonValue: String): String {
+
+        return expression1.text.toString() + "" + buttonValue
+    }
+
+    private fun getInputExpression(): String {
+        var expression = expression1.text.replace(Regex("÷"), "/")
+        expression = expression.replace(Regex("×"), "*")
+        return expression
     }
 
     private fun resultText(){
-        val exp = expression.text.toString()
-        val engine:ScriptEngine = ScriptEngineManager().getEngineByName("rhino")
+
         try {
-            val res = engine.eval(exp)
-            if(res.toString().endsWith(".0")){
-                result.text = "= " + res.toString().replace(".0","")
-            }else{
-                result.text = "=$res"
+            val expression = getInputExpression()
+            val result = Expression(expression).calculate()
+            if (result.isNaN()) {
+                // Show Error Message
+                result1.text = ""
+                result1.setTextColor(ContextCompat.getColor(this, R.color.purple_500))
+            } else {
+                // Show Result
+                result1.text = DecimalFormat("0.######").format(result).toString()
+                result1.setTextColor(ContextCompat.getColor(this, R.color.purple_500))
             }
-        }catch (e:Exception){
-            expression.text = expression.text.toString()
-            result.text = expression.text.toString()
+
+        } catch (e:Exception){
+            result1.text = ""
+            result1.setTextColor(ContextCompat.getColor(this, R.color.primaryLightColor))
         }
     }
 }
