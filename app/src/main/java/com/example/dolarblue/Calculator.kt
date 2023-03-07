@@ -37,34 +37,36 @@ class Calculator : AppCompatActivity() {
     private lateinit var eight: Button
     private lateinit var nine: Button
     private lateinit var clear1: Button
+    private lateinit var send: Button
     private lateinit var gestureDetector: GestureDetector
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
-        expression1= findViewById(R.id.solutionTv)
-        result1= findViewById(R.id.resultTv)
-        clear= findViewById(R.id.btnClear)
-        openbracket= findViewById(R.id.btnOpenBracket)
-        closebracket= findViewById(R.id.btnCloseBracket)
-        divide= findViewById(R.id.btnDividir)
-        dot= findViewById(R.id.btnPoint)
-        multiply= findViewById(R.id.btnMultiplicar)
-        add= findViewById(R.id.btnSuma)
-        substract= findViewById(R.id.btnRestar)
-        equal= findViewById(R.id.btnIgual)
-        zero= findViewById(R.id.btn0)
-        one= findViewById(R.id.btn1)
-        two= findViewById(R.id.btn2)
-        three= findViewById(R.id.btn3)
-        four= findViewById(R.id.btn4)
-        five= findViewById(R.id.btn5)
-        six= findViewById(R.id.btn6)
-        seven= findViewById(R.id.btn7)
-        eight= findViewById(R.id.btn8)
-        nine= findViewById(R.id.btn9)
+        expression1 = findViewById(R.id.solutionTv)
+        result1 = findViewById(R.id.resultTv)
+        clear = findViewById(R.id.btnClear)
+        openbracket = findViewById(R.id.btnOpenBracket)
+        closebracket = findViewById(R.id.btnCloseBracket)
+        divide = findViewById(R.id.btnDividir)
+        dot = findViewById(R.id.btnPoint)
+        multiply = findViewById(R.id.btnMultiplicar)
+        add = findViewById(R.id.btnSuma)
+        substract = findViewById(R.id.btnRestar)
+        equal = findViewById(R.id.btnIgual)
+        zero = findViewById(R.id.btn0)
+        one = findViewById(R.id.btn1)
+        two = findViewById(R.id.btn2)
+        three = findViewById(R.id.btn3)
+        four = findViewById(R.id.btn4)
+        five = findViewById(R.id.btn5)
+        six = findViewById(R.id.btn6)
+        seven = findViewById(R.id.btn7)
+        eight = findViewById(R.id.btn8)
+        nine = findViewById(R.id.btn9)
         clear1 = findViewById(R.id.btnAc)
+        send = findViewById(R.id.btnSend)
 
         gestureDetector = GestureDetector(this, GestureListener())
 
@@ -73,79 +75,86 @@ class Calculator : AppCompatActivity() {
         expression1.isPressed = true
 
 
-     /*   val switchButtonBackToMain = findViewById<Button>(R.id.switch_button_to_main)
-        switchButtonBackToMain.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }*/
-        clear1.setOnClickListener{
+        /*   val switchButtonBackToMain = findViewById<Button>(R.id.switch_button_to_main)
+           switchButtonBackToMain.setOnClickListener {
+               val intent = Intent(this, MainActivity::class.java)
+               startActivity(intent)
+           }*/
+        send.setOnClickListener{
+            if(resultText().toString().isNotEmpty()){
+                val intent = Intent(this,MainActivity::class.java)
+                intent.putExtra("NUMBER",resultText().toString())
+                startActivity(intent)
+            }
+        }
+        clear1.setOnClickListener {
             val removedLast = expression1.text.toString().dropLast(1)
             expression1.text = removedLast
         }
 
-        clear.setOnClickListener{
-            expression1.text= ""
+        clear.setOnClickListener {
+            expression1.text = ""
             expression1.textSize = 32F
             result1.textSize = 12F
         }
-        openbracket.setOnClickListener{
+        openbracket.setOnClickListener {
             expression1.text = addToInputText("(")
         }
-        closebracket.setOnClickListener{
+        closebracket.setOnClickListener {
             expression1.text = addToInputText(")")
         }
-        divide.setOnClickListener{
+        divide.setOnClickListener {
             expression1.text = addToInputText("/")
         }
 
-        dot.setOnClickListener{
+        dot.setOnClickListener {
             expression1.text = addToInputText(".")
         }
-        multiply.setOnClickListener{
+        multiply.setOnClickListener {
             expression1.text = addToInputText("*")
         }
-        add.setOnClickListener{
+        add.setOnClickListener {
             expression1.text = addToInputText("+")
         }
-        substract.setOnClickListener{
+        substract.setOnClickListener {
             expression1.text = addToInputText("-")
         }
-        equal.setOnClickListener{
+        equal.setOnClickListener {
             resultText()
             expression1.textSize = 12F
             result1.textSize = 32F
         }
-        zero.setOnClickListener{
+        zero.setOnClickListener {
             expression1.text = addToInputText("0")
 
         }
 
-        one.setOnClickListener{
+        one.setOnClickListener {
             expression1.text = addToInputText("1")
         }
 
-        two.setOnClickListener{
+        two.setOnClickListener {
             expression1.text = addToInputText("2")
         }
-        three.setOnClickListener{
+        three.setOnClickListener {
             expression1.text = addToInputText("3")
         }
-        four.setOnClickListener{
+        four.setOnClickListener {
             expression1.text = addToInputText("4")
         }
-        five.setOnClickListener{
+        five.setOnClickListener {
             expression1.text = addToInputText("5")
         }
-        six.setOnClickListener{
+        six.setOnClickListener {
             expression1.text = addToInputText("6")
         }
-        seven.setOnClickListener{
+        seven.setOnClickListener {
             expression1.text = addToInputText("7")
         }
-        eight.setOnClickListener{
+        eight.setOnClickListener {
             expression1.text = addToInputText("8")
         }
-        nine.setOnClickListener{
+        nine.setOnClickListener {
             expression1.text = addToInputText("9")
         }
 
@@ -187,6 +196,7 @@ class Calculator : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
+
             return true
         }
     }
@@ -201,7 +211,7 @@ class Calculator : AppCompatActivity() {
         return expression
     }
 
-    private fun resultText(){
+    private fun resultText() {
 
         try {
             val expression = getInputExpression()
@@ -214,9 +224,10 @@ class Calculator : AppCompatActivity() {
                 // Show Result
                 result1.text = DecimalFormat("0.######").format(result).toString()
                 result1.setTextColor(ContextCompat.getColor(this, R.color.purple_500))
+
             }
 
-        } catch (e:Exception){
+        } catch (e: Exception) {
             result1.text = ""
             result1.setTextColor(ContextCompat.getColor(this, R.color.primaryLightColor))
         }

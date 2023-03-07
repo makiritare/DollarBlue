@@ -23,14 +23,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var gestureDetector: GestureDetector
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.calculateButton.setOnClickListener {calculateDollarExchange()}
-        binding.calculateGwei.setOnClickListener {getGweiToUsd()}
+        binding.calculateButton.setOnClickListener { calculateDollarExchange() }
+        binding.calculateGwei.setOnClickListener { getGweiToUsd() }
         gestureDetector = GestureDetector(this, GestureListener())
+
+        ///tincho y sus problemas
+        val costOfServiceEditText = binding.costOfServiceEditText
+        val number1: String = intent.extras?.getString("NUMBER") ?: "default"
+        costOfServiceEditText.setText(number1)
 
 
         //Functions loaded at the start of the app
@@ -93,40 +99,64 @@ class MainActivity : AppCompatActivity() {
         val a = amountToExchange.toDoubleOrNull()
         val d = dolarPrice.toDoubleOrNull()
         val formatCurrency = NumberFormat.getCurrencyInstance()
-        when{
-            a == null && d == null -> {
-                binding.totalAmount.text = getString(R.string.error_total)
-                Toast.makeText(binding.root.context, getString(R.string.error_total), Toast.LENGTH_SHORT).show()
-            }
-            a == null && d != null -> {
-                binding.totalAmount.text = getString(R.string.error_monto)
-                Toast.makeText(binding.root.context, getString(R.string.error_monto), Toast.LENGTH_SHORT).show()
-            }
-            a != null && d == null -> {
-                binding.totalAmount.text = getString(R.string.error_dolar)
-                Toast.makeText(binding.root.context, getString(R.string.error_dolar), Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                if(binding.switchID.isChecked){
-                    val formattedTotal = formatCurrency.format(amountToExchange.toDouble() / dolarPrice.toDouble())
-                    binding.totalAmount.text = getString(R.string.dolars_amount, formattedTotal)
+        when {
+                a == null && d == null -> {
+                    binding.totalAmount.text = getString(R.string.error_total)
+                    Toast.makeText(
+                        binding.root.context,
+                        getString(R.string.error_total),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                a == null && d != null -> {
+                    binding.totalAmount.text = getString(R.string.error_monto)
+                    Toast.makeText(
+                        binding.root.context,
+                        getString(R.string.error_monto),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                a != null && d == null -> {
+                    binding.totalAmount.text = getString(R.string.error_dolar)
+                    Toast.makeText(
+                        binding.root.context,
+                        getString(R.string.error_dolar),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else -> {
+                    if (binding.switchID.isChecked) {
+                        val formattedTotal =
+                            formatCurrency.format(amountToExchange.toDouble() / dolarPrice.toDouble())
+                        binding.totalAmount.text = getString(R.string.dolars_amount, formattedTotal)
 
-                }else{
-                    val formattedTotal = formatCurrency.format(amountToExchange.toDouble() * dolarPrice.toDouble())
-                    binding.totalAmount.text = getString(R.string.pesos_amount, formattedTotal)
+                    } else {
+                        val formattedTotal =
+                            formatCurrency.format(amountToExchange.toDouble() * dolarPrice.toDouble())
+                        binding.totalAmount.text = getString(R.string.pesos_amount, formattedTotal)
+                    }
                 }
             }
-        }
+
     }
+
 
     private fun getDollarToArg() {
         val textView = findViewById<TextView>(R.id.dolarPrice)
         val queue = Volley.newRequestQueue(this)
         val url = "https://app.ripio.com/api/v3/public/rates/"
         val stringRequest = StringRequest(url,
-            { response -> textView.text = usdcPriceArg(response)
-            },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
-                ContextCompat.getColor(this, R.color.purple_500)).show() })
+            { response ->
+                textView.text = usdcPriceArg(response)
+            }, {
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.internet_error),
+                    Snackbar.LENGTH_SHORT
+                ).setBackgroundTint(
+                    ContextCompat.getColor(this, R.color.purple_500)
+                ).show()
+            })
         queue.add(stringRequest)
     }
 
@@ -135,9 +165,17 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         val url = "https://dolarhoy.com/cotizaciondolarblue"
         val stringRequest = StringRequest(url,
-            { response -> textView.text = dolarBluePrice(response)
-            },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
-                ContextCompat.getColor(this, R.color.purple_500)).show() })
+            { response ->
+                textView.text = dolarBluePrice(response)
+            }, {
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.internet_error),
+                    Snackbar.LENGTH_SHORT
+                ).setBackgroundTint(
+                    ContextCompat.getColor(this, R.color.purple_500)
+                ).show()
+            })
         queue.add(stringRequest)
     }
 
@@ -146,9 +184,17 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         val url = "https://etherscan.io/gastracker"
         val stringRequest = StringRequest(url,
-            { response -> textView.text = gasEstimate(response)
-            },  { Snackbar.make(binding.root, getString(R.string.internet_error), Snackbar.LENGTH_SHORT).setBackgroundTint(
-                ContextCompat.getColor(this, R.color.purple_700)).show() })
+            { response ->
+                textView.text = gasEstimate(response)
+            }, {
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.internet_error),
+                    Snackbar.LENGTH_SHORT
+                ).setBackgroundTint(
+                    ContextCompat.getColor(this, R.color.purple_700)
+                ).show()
+            })
         queue.add(stringRequest)
     }
 
@@ -166,7 +212,10 @@ class MainActivity : AppCompatActivity() {
         //estimating coinbase gas price 1.5 dollars over the Gas cost
         val array = string.split("spanHighPriorityAndBase")
         val gweiAmount = array[0].split("spanHighPrice\">")[1].split("</span>")[0]
-        val gweiToUsd = array[1].split("spanHighPriorityAndBase")[0].split("<div class=\"text-muted\">")[1].split("|")[0].replace("\n", "").replace("$", "").toDouble() + 1.5
+        val gweiToUsd =
+            array[1].split("spanHighPriorityAndBase")[0].split("<div class=\"text-muted\">")[1].split(
+                "|"
+            )[0].replace("\n", "").replace("$", "").toDouble() + 1.5
         val formatDecimal = String.format("%.2f", gweiToUsd)
 
         return "${gweiAmount.replace("\n", "")} Gwei = $formatDecimal USD"
@@ -175,8 +224,10 @@ class MainActivity : AppCompatActivity() {
     private fun setCheckedChangeListener() {
         binding.switchID.setOnCheckedChangeListener { _, isChecked ->
             val msg = getString(if (isChecked) R.string.on else R.string.off)
-            val exchangeButton = getString(if (isChecked) R.string.calculate_dollars else R.string.calculate_pesos)
-            val exchangeText = getString(if (isChecked) R.string.dollar_to_exchange else R.string.pesos_to_exchange)
+            val exchangeButton =
+                getString(if (isChecked) R.string.calculate_dollars else R.string.calculate_pesos)
+            val exchangeText =
+                getString(if (isChecked) R.string.dollar_to_exchange else R.string.pesos_to_exchange)
             //Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
             binding.switchID.text = msg
             binding.calculateButton.text = exchangeButton
@@ -184,16 +235,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCheckedDollars(){
+    private fun setCheckedDollars() {
         binding.dollarSwitch.setOnCheckedChangeListener { _, isChecked ->
             val dollarKind = getString(if (isChecked) R.string.blue_dolar else R.string.ripio_dolar)
             binding.dollarSwitch.text = dollarKind
             if (isChecked) {
                 getDollarBlue()
-                binding.totalAmount.text =""
+                binding.totalAmount.text = ""
             } else {
                 getDollarToArg()
-                binding.totalAmount.text =""
+                binding.totalAmount.text = ""
             }
         }
     }
