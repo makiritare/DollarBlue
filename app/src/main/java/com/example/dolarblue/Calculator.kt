@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Button
@@ -84,6 +85,7 @@ class Calculator : AppCompatActivity() {
             if(resultText().toString().isNotEmpty()){
                 val intent = Intent(this,MainActivity::class.java)
                 intent.putExtra("NUMBER",resultText().toString())
+                Log.d("MainActivity", "Sending number: 7")
                 startActivity(intent)
             }
         }

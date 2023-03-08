@@ -2,6 +2,7 @@ package com.example.dolarblue
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
@@ -35,8 +36,15 @@ class MainActivity : AppCompatActivity() {
 
         ///tincho y sus problemas
         val costOfServiceEditText = binding.costOfServiceEditText
-        val number1: String = intent.extras?.getString("NUMBER") ?: "default"
-        costOfServiceEditText.setText(number1)
+
+
+        if (intent.hasExtra("NUMBER")) {
+            // Get the value of "NUMBER" from the intent and set it as the text of a TextView
+            val number = intent.getStringExtra("NUMBER")
+            Log.d("MainActivity", "Received number: $number")
+            costOfServiceEditText.setText(number)
+
+        }
 
 
         //Functions loaded at the start of the app
