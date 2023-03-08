@@ -38,9 +38,8 @@ class MainActivity : AppCompatActivity() {
         val costOfServiceEditText = binding.costOfServiceEditText
 
 
-        if (intent.hasExtra("NUMBER")) {
-            // Get the value of "NUMBER" from the intent and set it as the text of a TextView
-            val number = intent.getStringExtra("NUMBER")
+        if (intent.hasExtra("Number")) {
+            val number = intent.getStringExtra("Number")
             Log.d("MainActivity", "Received number: $number")
             costOfServiceEditText.setText(number)
 

@@ -81,14 +81,12 @@ class Calculator : AppCompatActivity() {
                val intent = Intent(this, MainActivity::class.java)
                startActivity(intent)
            }*/
-        send.setOnClickListener{
-            if(resultText().toString().isNotEmpty()){
-                val intent = Intent(this,MainActivity::class.java)
-                intent.putExtra("NUMBER",resultText().toString())
-                Log.d("MainActivity", "Sending number: 7")
-                startActivity(intent)
-            }
+
+
+        send.setOnClickListener {
+            sendResult()
         }
+
         clear1.setOnClickListener {
             val removedLast = expression1.text.toString().dropLast(1)
             expression1.text = removedLast
@@ -162,6 +160,16 @@ class Calculator : AppCompatActivity() {
 
     }
 
+    private fun sendResult() {
+        val expression = getInputExpression()
+        val result = Expression(expression).calculate()
+        val resultString = DecimalFormat("0.######").format(result).toString()
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("Number", resultString)
+        startActivity(intent)
+        Log.d("MainActivity", "Result sent: $resultString")
+    }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         gestureDetector.onTouchEvent(event)
