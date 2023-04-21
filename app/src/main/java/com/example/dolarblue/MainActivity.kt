@@ -17,13 +17,14 @@ import com.example.dolarblue.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
 import kotlin.math.abs
-
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var gestureDetector: GestureDetector
 
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -37,27 +38,16 @@ class MainActivity : AppCompatActivity() {
         ///tincho y sus problemas
         val costOfServiceEditText = binding.costOfServiceEditText
 
-
         if (intent.hasExtra("Number")) {
             val number = intent.getStringExtra("Number")
             Log.d("MainActivity", "Received number: $number")
             costOfServiceEditText.setText(number)
-
         }
-
 
         //Functions loaded at the start of the app
         setCheckedChangeListener()
         setCheckedDollars()
         waitTwoSecond()
-
-
-        //button to switch between Activity
-/*        val switchButton = findViewById<Button>(R.id.switch_button_to_calc)
-        switchButton.setOnClickListener {
-            val intent = Intent(this, Calculator::class.java)
-            startActivity(intent)
-        }*/
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -89,10 +79,12 @@ class MainActivity : AppCompatActivity() {
                     // Swipe right, launch target activity
                     val intent = Intent(this@MainActivity, Calculator::class.java)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
                 } else {
                     // Swipe left, launch another activity
                     val intent = Intent(this@MainActivity, Calculator::class.java)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right)
                 }
             }
             return true
@@ -107,46 +99,50 @@ class MainActivity : AppCompatActivity() {
         val d = dolarPrice.toDoubleOrNull()
         val formatCurrency = NumberFormat.getCurrencyInstance()
         when {
-                a == null && d == null -> {
-                    binding.totalAmount.text = getString(R.string.error_total)
-                    Toast.makeText(
-                        binding.root.context,
-                        getString(R.string.error_total),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                a == null && d != null -> {
-                    binding.totalAmount.text = getString(R.string.error_monto)
-                    Toast.makeText(
-                        binding.root.context,
-                        getString(R.string.error_monto),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                a != null && d == null -> {
-                    binding.totalAmount.text = getString(R.string.error_dolar)
-                    Toast.makeText(
-                        binding.root.context,
-                        getString(R.string.error_dolar),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                else -> {
-                    if (binding.switchID.isChecked) {
-                        val formattedTotal =
-                            formatCurrency.format(amountToExchange.toDouble() / dolarPrice.toDouble())
-                        binding.totalAmount.text = getString(R.string.dolars_amount, formattedTotal)
-
-                    } else {
-                        val formattedTotal =
-                            formatCurrency.format(amountToExchange.toDouble() * dolarPrice.toDouble())
-                        binding.totalAmount.text = getString(R.string.pesos_amount, formattedTotal)
-                    }
+            a == null && d == null -> {
+                binding.totalAmount.text = getString(R.string.error_total)
+                Toast.makeText(
+                    binding.root.context,
+                    getString(R.string.error_total),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            a == null && d != null -> {
+                binding.totalAmount.text = getString(R.string.error_monto)
+                Toast.makeText(
+                    binding.root.context,
+                    getString(R.string.error_monto),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            a != null && d == null -> {
+                binding.totalAmount.text = getString(R.string.error_dolar)
+                Toast.makeText(
+                    binding.root.context,
+                    getString(R.string.error_dolar),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {
+                scope.launch {
+                    val result = calculateExchangeAmountAsync(a, d, binding.switchID.isChecked)
+                    binding.totalAmount.text = getString(R.string.dolars_amount, formatCurrency.format(result))
                 }
             }
-
+        }
     }
 
+    private suspend fun calculateExchangeAmountAsync(amount: Double?, dolarPrice: Double?, isChecked: Boolean): Double {
+        return withContext(Dispatchers.IO) {
+            if (isChecked && amount != null && dolarPrice != null) {
+                amount / dolarPrice
+            } else if (amount != null && dolarPrice != null) {
+                amount * dolarPrice
+            } else {
+                0.0
+            }
+        }
+    }
 
     private fun getDollarToArg() {
         val textView = findViewById<TextView>(R.id.dolarPrice)
@@ -186,6 +182,7 @@ class MainActivity : AppCompatActivity() {
         queue.add(stringRequest)
     }
 
+
     private fun getGweiToUsd() {
         val textView = findViewById<TextView>(R.id.gwei_text)
         val queue = Volley.newRequestQueue(this)
@@ -215,14 +212,14 @@ class MainActivity : AppCompatActivity() {
         return array[1].split("</div>")[0]
     }
 
+
     private fun gasEstimate(string: String): String {
-        //estimating coinbase gas price 1.5 dollars over the Gas cost
         val array = string.split("spanHighPriorityAndBase")
         val gweiAmount = array[0].split("spanHighPrice\">")[1].split("</span>")[0]
         val gweiToUsd =
             array[1].split("spanHighPriorityAndBase")[0].split("<div class=\"text-muted\">")[1].split(
                 "|"
-            )[0].replace("\n", "").replace("$", "").toDouble() + 1.5
+            )[0].replace("\nn", "").replace("$", "").toDouble()
         val formatDecimal = String.format("%.2f", gweiToUsd)
 
         return "${gweiAmount.replace("\n", "")} Gwei = $formatDecimal USD"
@@ -242,27 +239,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setCheckedDollars() {
         binding.dollarSwitch.setOnCheckedChangeListener { _, isChecked ->
             val dollarKind = getString(if (isChecked) R.string.blue_dolar else R.string.ripio_dolar)
             binding.dollarSwitch.text = dollarKind
             if (isChecked) {
-                getDollarBlue()
-                binding.totalAmount.text = ""
+                scope.launch {
+                    getDollarBlue()
+                    binding.totalAmount.text = ""
+                }
             } else {
-                getDollarToArg()
-                binding.totalAmount.text = ""
+                scope.launch {
+                    getDollarToArg()
+                    binding.totalAmount.text = ""
+                }
             }
         }
     }
 
     private fun waitTwoSecond() {
-        try {
-            Thread.sleep(250)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
+        scope.launch {
+            delay(250)
+            getDollarToArg()
         }
-        getDollarToArg()
     }
 
     private fun hideSoftKeyboard() {
