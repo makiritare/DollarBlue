@@ -126,7 +126,12 @@ class MainActivity : AppCompatActivity() {
             else -> {
                 scope.launch {
                     val result = calculateExchangeAmountAsync(a, d, binding.switchID.isChecked)
-                    binding.totalAmount.text = getString(R.string.dolars_amount, formatCurrency.format(result))
+
+                    if (binding.switchID.isChecked) {
+                        binding.totalAmount.text = getString(R.string.dolars_amount, formatCurrency.format(result))
+                    } else {
+                        binding.totalAmount.text = getString(R.string.pesos_amount, formatCurrency.format(result))
+                    }
                 }
             }
         }
@@ -230,8 +235,7 @@ class MainActivity : AppCompatActivity() {
             val msg = getString(if (isChecked) R.string.on else R.string.off)
             val exchangeButton =
                 getString(if (isChecked) R.string.calculate_dollars else R.string.calculate_pesos)
-            val exchangeText =
-                getString(if (isChecked) R.string.dollar_to_exchange else R.string.pesos_to_exchange)
+            val exchangeText = getString(if (isChecked) R.string.dollar_to_exchange else R.string.pesos_to_exchange)
             //Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
             binding.switchID.text = msg
             binding.calculateButton.text = exchangeButton

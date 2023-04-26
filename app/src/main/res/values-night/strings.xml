@@ -7,12 +7,10 @@
     <string name="gwei_amount">USDC transferencia</string>
     <string name="update_exchange">Actualizar</string>
     <string name="cantidad_a_cambiar">Cantidad a cambiar</string>
-    <string name="pesos_to_exchange">Dolares a cambiar</string>
-    <string name="dollar_to_exchange">Pesos a cambiar</string>
     <string name="precio_del_dolar">Precio del dolar</string>
 
 
-    <string name="dolars_amount">Dolares a cambiar: %s</string>
+    <string name="dolars_amount">Cambio en dolares: %s</string>
     <string name="pesos_amount">Cambio en pesos: %s</string>
     <string name="error_total">Falta rellenar los datos</string>
     <string name="error_monto">Falta el monto a cambiar</string>
@@ -23,4 +21,6 @@
     //slider
     <string name="off">USD</string>
     <string name="on">ARG</string>
+    <string name="dollar_to_exchange">Dolares a cambiar</string>
+    <string name="pesos_to_exchange">Pesos a cambiar</string>
 </resources>
