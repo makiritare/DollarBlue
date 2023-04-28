@@ -23,4 +23,7 @@
     <string name="on">ARG</string>
     <string name="dollar_to_exchange">Dolares a cambiar</string>
     <string name="pesos_to_exchange">Pesos a cambiar</string>
+    <string name="dolar_hoy_price">Dolar Hoy</string>
+    <string name="dolar_venta">Dolar Venta</string>
+    <string name="dolar_compra">Dolar Compra</string>
 </resources>

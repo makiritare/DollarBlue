@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.calculateButton.setOnClickListener { calculateDollarExchange() }
-        binding.calculateGwei.setOnClickListener { getGweiToUsd() }
+        binding.dolarHoyButton.setOnClickListener { getDolarHoy() }
         gestureDetector = GestureDetector(this, GestureListener())
 
         ///tincho y sus problemas
@@ -168,13 +168,16 @@ class MainActivity : AppCompatActivity() {
         queue.add(stringRequest)
     }
 
-    private fun getDollarBlue() {
-        val textView = findViewById<TextView>(R.id.dolarPrice)
+    private fun getDolarHoy() {
+        val dolarVenta = findViewById<TextView>(R.id.dolar_venta)
+        val dolarCompra = findViewById<TextView>(R.id.dolar_compra)
         val queue = Volley.newRequestQueue(this)
         val url = "https://dolarhoy.com/cotizaciondolarblue"
         val stringRequest = StringRequest(url,
             { response ->
-                textView.text = dolarBluePrice(response)
+                // number of the array can only be 1 or 2, one is for buy price and 2 is for sell price
+                dolarCompra.text = dolarBluePrice(response,1)
+                dolarVenta.text = dolarBluePrice(response,2)
             }, {
                 Snackbar.make(
                     binding.root,
@@ -188,7 +191,27 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getGweiToUsd() {
+    private fun getDollarBlue() {
+        val textView = findViewById<TextView>(R.id.dolarPrice)
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://dolarhoy.com/cotizaciondolarblue"
+        val stringRequest = StringRequest(url,
+            { response ->
+                // number of the array can only be 1 or 2, one is for buy price and 2 is for sell price
+                textView.text = dolarBluePrice(response,1)
+            }, {
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.internet_error),
+                    Snackbar.LENGTH_SHORT
+                ).setBackgroundTint(
+                    ContextCompat.getColor(this, R.color.purple_500)
+                ).show()
+            })
+        queue.add(stringRequest)
+    }
+
+/*    private fun getGweiToUsd() {
         val textView = findViewById<TextView>(R.id.gwei_text)
         val queue = Volley.newRequestQueue(this)
         val url = "https://etherscan.io/gastracker"
@@ -205,19 +228,22 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             })
         queue.add(stringRequest)
-    }
+    }*/
 
     private fun usdcPriceArg(string: String): String {
         val array = string.split("USDC_ARS")
         return array[1].split("\",\"")[2].replace("sell_rate\":\"", "")
     }
 
-    private fun dolarBluePrice(string: String): String {
+    private fun dolarBluePrice(string: String, num: Int): String {
         val array = string.split("<div class=\"value\">\$")
-        return array[1].split("</div>")[0]
+/*        //tag to print the value to the console
+        Log.d("TAG", array[1].split("</div>")[0])
+        Log.d("TAG", array[2].split("</div>")[0])*/
+        return array[num].split("</div>")[0]
     }
 
-
+/*
     private fun gasEstimate(string: String): String {
         val array = string.split("spanHighPriorityAndBase")
         val gweiAmount = array[0].split("spanHighPrice\">")[1].split("</span>")[0]
@@ -228,7 +254,7 @@ class MainActivity : AppCompatActivity() {
         val formatDecimal = String.format("%.2f", gweiToUsd)
 
         return "${gweiAmount.replace("\n", "")} Gwei = $formatDecimal USD"
-    }
+    }*/
 
     private fun setCheckedChangeListener() {
         binding.switchID.setOnCheckedChangeListener { _, isChecked ->
