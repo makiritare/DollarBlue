@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity() {
                     val ethPrice = getEthPrice()
                     val gasPrice = getGasPrice()
 
-                    val gasUsageMin = 46100.0
-                    val gasUsageMax = 58400.0
+                    val gasUsageMin = 48481.0
+                    val gasUsageMax = 61000.0
 
                     val minCostUsd = calculateTransactionCost(ethPrice, gasPrice, gasUsageMin)
                     val maxCostUsd = calculateTransactionCost(ethPrice, gasPrice, gasUsageMax)
