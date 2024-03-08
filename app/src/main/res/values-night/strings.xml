@@ -27,5 +27,5 @@
     <string name="someButton">Transfer Fee</string>
     <string name="dolar_venta">Dolar Venta</string>
     <string name="dolar_compra">Dolar Compra</string>
-    <string name="price_of_the_usdc_transfer">Price of the USDC transfer</string>
+    <string name="price_of_the_usdc_transfer">ERC-20 precio de transferencia</string>
 </resources>

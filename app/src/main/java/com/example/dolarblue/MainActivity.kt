@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                         val formattedMinCostUsd = String.format("%.2f", minCostUsd)
                         val formattedMaxCostUsd = String.format("%.2f", maxCostUsd)
 
-                        val transferInfoText = "Transfer Fee $formattedMinCostUsd to $formattedMaxCostUsd USD"
+                        val transferInfoText = " $formattedMinCostUsd a $formattedMaxCostUsd USD"
                         binding.priceTranfer.setText(transferInfoText)
 
                         delay(10000)
