@@ -18,6 +18,18 @@ import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
 import kotlin.math.abs
 import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+//new implementation to calculate usdc transfer fee
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +46,42 @@ class MainActivity : AppCompatActivity() {
         binding.calculateButton.setOnClickListener { calculateDollarExchange() }
         binding.dolarHoyButton.setOnClickListener { getDolarHoy() }
         gestureDetector = GestureDetector(this, GestureListener())
+
+
+        binding.someButton.setOnClickListener {
+            scope.launch {
+                try {
+                    val ethPrice = getEthPrice()
+                    val gasPrice = getGasPrice()
+
+                    val gasUsageMin = 46100.0
+                    val gasUsageMax = 58400.0
+
+                    val minCostUsd = calculateTransactionCost(ethPrice, gasPrice, gasUsageMin)
+                    val maxCostUsd = calculateTransactionCost(ethPrice, gasPrice, gasUsageMax)
+
+                    withContext(Dispatchers.Main) {
+                        val formattedMinCostUsd = String.format("%.2f", minCostUsd)
+                        val formattedMaxCostUsd = String.format("%.2f", maxCostUsd)
+
+                        val transferInfoText = "Transfer Fee $formattedMinCostUsd to $formattedMaxCostUsd USD"
+                        binding.priceTranfer.setText(transferInfoText)
+
+                        delay(10000)
+                        binding.priceTranfer.setText("")
+                    }
+                } catch (e: Exception) {
+                    // Catch any exceptions that occurred during the network request or processing
+                    withContext(Dispatchers.Main) {
+                        // Show an error message to the user
+                        Snackbar.make(binding.root, "Failed to fetch data. Please check your internet connection and try again.", Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(ContextCompat.getColor(this@MainActivity, R.color.purple_500))
+                            .show()
+                    }
+                }
+            }
+        }
+
 
         ///tincho y sus problemas
         val costOfServiceEditText = binding.costOfServiceEditText
@@ -303,4 +351,71 @@ class MainActivity : AppCompatActivity() {
             this.currentFocus?.windowToken ?: return, 0
         )
     }
+
+    private suspend fun getEthPrice(): Double = withContext(Dispatchers.IO) {
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val body = response.body?.string()
+            val gson = Gson()
+            val result = gson.fromJson(body, Map::class.java)
+            val ethereum = result["ethereum"]
+            if (ethereum is Map<*, *>) {
+                val usdPrice = ethereum["usd"]
+                if (usdPrice is Double) {
+                    return@withContext usdPrice
+                }
+            }
+            error("ETH price not found")
+        }
+    }
+
+
+
+    // Modified to be a suspend function for coroutine use
+    private suspend fun getGasPrice(): Double = withContext(Dispatchers.IO) {
+        val client = OkHttpClient()
+        val infuraUrl = "https://mainnet.infura.io/v3/84028e506fc8417797e1313d2185c93a"
+        val mediaTypeJson = "application/json; charset=utf-8".toMediaType()
+        val bodyContent = """
+    {
+        "jsonrpc":"2.0",
+        "method":"eth_gasPrice",
+        "params":[],
+        "id":1
+    }
+    """.trimIndent()
+        val body = bodyContent.toRequestBody(mediaTypeJson)
+        val request = Request.Builder()
+            .url(infuraUrl)
+            .post(body)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val responseBody = response.body?.string() ?: throw IllegalStateException("Response body is null")
+            val jsonObject = JsonParser.parseString(responseBody).asJsonObject
+            val result = jsonObject.get("result").asString
+            // Correctly handle the hexadecimal string
+            val gasPriceWei = result.removePrefix("0x").toBigInteger(16).toDouble()
+            // Convert Wei to Gwei
+            gasPriceWei / 1_000_000_000
+        }
+    }
+
+    private fun calculateTransactionCost(ethPrice: Double, gasPriceGwei: Double, gasUsed: Double): Double {
+        // Convert Gwei to Ether for the gas price
+        val gasPriceEther = gasPriceGwei / 1_000_000_000
+        // Calculate the cost in Ether
+        val costInEther = gasUsed * gasPriceEther
+        // Convert the cost to USD
+        return costInEther * ethPrice
+    }
+
+
+
+// Example of using these functions asynchronously in an Activity
+
 }
