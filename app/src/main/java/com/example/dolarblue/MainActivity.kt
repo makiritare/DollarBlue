@@ -2,6 +2,8 @@ package com.example.dolarblue
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -226,6 +228,10 @@ class MainActivity : AppCompatActivity() {
                 // number of the array can only be 1 or 2, one is for buy price and 2 is for sell price
                 dolarCompra.text = dolarBluePrice(response,1)
                 dolarVenta.text = dolarBluePrice(response,2)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    dolarCompra.text = ""
+                    dolarVenta.text = ""
+                }, 10000) // 10000ms delay to clear the text
             }, {
                 Snackbar.make(
                     binding.root,
@@ -236,6 +242,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             })
         queue.add(stringRequest)
+
     }
 
 
