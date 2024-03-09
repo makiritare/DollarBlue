@@ -24,7 +24,7 @@
     <string name="dollar_to_exchange">Dolares a cambiar</string>
     <string name="pesos_to_exchange">Pesos a cambiar</string>
     <string name="dolar_hoy_price">Dolar Hoy</string>
-    <string name="someButton">Transfer Fee</string>
+    <string name="someButton">Costo de Transferencia</string>
     <string name="dolar_venta">Dolar Venta</string>
     <string name="dolar_compra">Dolar Compra</string>
     <string name="price_of_the_usdc_transfer">Precio de transferencia ERC-20</string>
