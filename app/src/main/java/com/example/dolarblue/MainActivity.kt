@@ -385,7 +385,7 @@ class MainActivity : AppCompatActivity() {
     // Modified to be a suspend function for coroutine use
     private suspend fun getGasPrice(): Double = withContext(Dispatchers.IO) {
         val client = OkHttpClient()
-        val infuraUrl = "https://mainnet.infura.io/v3/84028e506fc8417797e1313d2185c93a"
+        val infuraUrl = "your infuria api key"
         val mediaTypeJson = "application/json; charset=utf-8".toMediaType()
         val bodyContent = """
     {
